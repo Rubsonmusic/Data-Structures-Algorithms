@@ -12,20 +12,30 @@ private:
 	struct data{
 		int timestamp;
 		string value;
-		bool operator <(const data& a){
-			return timestamp < a.timestamp;
-		}
 	};
-
-
-	string binary(const vector<data>& v, vector<data>::iterator start, vector<data>::iterator end, data x){
-		if((end-start)==1){
-			if((*end>x) and (x>*start))
-				return start->value;
-			return " ";
+	
+	string binary(const vector<data>& v, int x){
+		int l = 0;
+		int r = v.size()-1;
+		
+		while(l<r){
+			int m = l+(r-l)/2;
+			if((x<v[m+1].timestamp) and (v[m].timestamp<=x))
+				return v[m].value;
+			else if(x<=v[m].timestamp)
+				r = m;
+			else
+				l = m+1;
 		}
 		
-		
+		if (l==r){
+			if(v[l].timestamp<=x)
+				return v[l].value;
+			else
+				return "";
+		}
+			
+		return "";
 	}
 	
 public:
@@ -47,7 +57,7 @@ public:
     }
     
     string get(string key, int timestamp) {
-        return "hello";
+        return this->binary(dict[key], timestamp);
     }
 	
 	void print_all(){
@@ -67,10 +77,11 @@ public:
  */
  
 int main(){
-	TimeMap a, b;
-	//a.set("a", "aval", 2);
-	//a.set("a", "sdlk", 13);
-	//a.set("b", "er", 4);
+	TimeMap a;
+	a.set("a", "aval", 4);
+	a.set("a", "er", 5);
+	a.set("a", "sdlk", 6);
+	cout<< a.get("a", 1) << endl;
 	a.print_all();
 	return 0;
 }
