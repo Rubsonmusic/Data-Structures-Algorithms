@@ -4,7 +4,7 @@
 class Solution {
 public:
     int characterReplacement(string s, int k) {
-        set<char> a;
+        unordered_set<char> a;
         for(char e: s){ a.insert(e);}
         int K, start, end;
         int max_count = 0;
